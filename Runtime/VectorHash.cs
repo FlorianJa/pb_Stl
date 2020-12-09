@@ -25,6 +25,26 @@ namespace Parabox.Stl
             this.z = z;
         }
 
+        public StlVector3 normalized { get { return StlVector3.Normalize(this); } }
+
+        public const float kEpsilon = 0.00001F;
+
+        public static StlVector3 Normalize(StlVector3 value)
+        {
+            float mag = Magnitude(value);
+            if (mag > kEpsilon)
+                return value / mag;
+            else
+                return zero;
+        }
+
+        public static float Magnitude(StlVector3 vector) { return (float)Math.Sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z); }
+
+        public static StlVector3 zero
+        {
+            get { return new StlVector3(0, 0, 0); }
+        }
+
         public static explicit operator Vector3(StlVector3 vec)
         {
             return new Vector3(vec.x, vec.y, vec.z);
@@ -33,6 +53,16 @@ namespace Parabox.Stl
         public static explicit operator StlVector3(Vector3 vec)
         {
             return new StlVector3(vec);
+        }
+
+        public static StlVector3 operator /(StlVector3 a, float d) { return new StlVector3(a.x / d, a.y / d, a.z / d); }
+
+        public static StlVector3 operator +(StlVector3 left, StlVector3 right)
+        {
+            left.x += right.x;
+            left.y += right.y;
+            left.z += right.z;
+            return left;
         }
 
         public bool Equals(StlVector3 other)
@@ -47,7 +77,7 @@ namespace Parabox.Stl
             if (obj == null || !(obj is StlVector3))
                 return false;
 
-            return Equals((StlVector3) obj);
+            return Equals((StlVector3)obj);
         }
 
         public override int GetHashCode()
@@ -65,14 +95,14 @@ namespace Parabox.Stl
             }
         }
 
-        public static bool operator == (StlVector3 a, StlVector3 b)
+        public static bool operator ==(StlVector3 a, StlVector3 b)
         {
             return a.Equals(b);
         }
 
-        public static bool operator != (StlVector3 a, StlVector3 b)
+        public static bool operator !=(StlVector3 a, StlVector3 b)
         {
-            return ! a.Equals(b);
+            return !a.Equals(b);
         }
     }
 }

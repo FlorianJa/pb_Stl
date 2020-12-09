@@ -31,12 +31,19 @@ namespace Parabox.Stl
 	/// </summary>
 	static class Stl
 	{
-		public static Vector3 ToCoordinateSpace(Vector3 point, CoordinateSpace space)
+		public static StlVector3 ToCoordinateSpace(StlVector3 point, CoordinateSpace space)
 		{
 			if(space == CoordinateSpace.Left)
+				return new StlVector3(-point.y, point.z, point.x);
+
+	    	return new StlVector3(point.z, -point.x, point.y);
+		}
+		public static Vector3 ToCoordinateSpace(Vector3 point, CoordinateSpace space)
+		{
+			if (space == CoordinateSpace.Left)
 				return new Vector3(-point.y, point.z, point.x);
 
-	    	return new Vector3(point.z, -point.x, point.y);
+			return new Vector3(point.z, -point.x, point.y);
 		}
 	}
 }
